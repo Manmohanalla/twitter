@@ -19,25 +19,24 @@ class TwitterFollowers(object):
 
 		try:
 			followers = twitter.get_followers_list(screen_name = user_name)
-			user = followers['users']
-			follower_names = [i['screen_name'] for i in user]
-			#returns all names of followers
-			return follower_names
 		except Exception as e:
 			return e
+		user = followers['users']
+		follower_names = [i['screen_name'] for i in user]
+		#returns all names of followers
+		return follower_names
+		
 
 	def common_followers(self,user_a,user_b):
-		
-		try:
-			#calling get_follower to get all follower names
-			follower_names_a = self.get_followers(user_a)
-			follower_names_b = self.get_followers(user_b)
-			# inner join to get common followers
-			followers = list(set(follower_names_a) & set(follower_names_b))
-			#returning list of common followers
-			return followers
-		except Exception as e:
-			return e
+	
+		#calling get_follower to get all follower names
+		follower_names_a = self.get_followers(user_a)
+		follower_names_b = self.get_followers(user_b)
+		# inner join to get common followers
+		followers = list(set(follower_names_a) & set(follower_names_b))
+		#returning list of common followers
+		return followers
+
 
 class TwitterUserKeyword(object):
 	
@@ -45,22 +44,19 @@ class TwitterUserKeyword(object):
 
 		try:
 			tweets=twitter.get_user_timeline(screen_name=user_name, count=100)
-			# returns 100 tweets
-			return tweets
 		except Exception as e:
 			return e
+		# returns 100 tweets
+		return tweets
 
 	def tweet_keyword(self,user_name,word):
 
-		try:
-			tweets = self.tweets(user_name)
-			#list of tweets with word in it
-			word_in_tweet = [i['text'] for i in tweets if word.lower() in i['text'].lower()]
-			#returning all tweets where word in it.
-			return word_in_tweet
-		except Exception as e:
-			return e
-
+		tweets = self.tweets(user_name)
+		#list of tweets with word in it
+		word_in_tweet = [i['text'] for i in tweets if word.lower() in i['text'].lower()]
+		#returning all tweets where word in it.
+		return word_in_tweet
+		
 if __name__ == '__main__':
 
 	if len(sys.argv) != 4:
